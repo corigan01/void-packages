@@ -122,6 +122,10 @@ case "$XBPS_TARGET_MACHINE" in
 		. ${_AUTOCONFCACHEDIR}/powerpc-common
 		. ${_AUTOCONFCACHEDIR}/powerpc-linux
 		. ${_AUTOCONFCACHEDIR}/powerpc32-linux
+        ;;
+	riscv*)
+		. ${_AUTOCONFCACHEDIR}/endian-little
+		. ${_AUTOCONFCACHEDIR}/riscv64-linux
 		;;
 
 	*) ;;
