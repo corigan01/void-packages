@@ -1,7 +1,7 @@
 # Template file for 'kernel-libc-headers'
 pkgname=kernel-libc-headers
 version=5.10.4
-revision=1
+revision=2
 bootstrap=yes
 wrksrc=linux-${version}
 short_desc="Linux API headers for userland development"
@@ -21,6 +21,7 @@ case "$XBPS_TARGET_MACHINE" in
 	aarch64*) _arch="arm64";;
 	mips*) _arch="mips";;
 	ppc*) _arch="powerpc";;
+	riscv*) _arch="riscv";;
 	*) msg_error "$pkgname: unknown architecture.\n";;
 esac
 
