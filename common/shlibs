@@ -4236,3 +4236,5 @@ librnnoise.so.0 rnnoise-0.0.0.2021.01.22_1
 libgtk-frdp-0.1.so gtk-frdp-3.37.1_1
 libstemmer.so.0 libstemmer-2.1.0_1
 libgtk-frdp-0.1.so gtk-frdp-3.37.1_1
+libfeedback-0.0.so.0 libfeedback-0.0.0+git20210125_1
+
