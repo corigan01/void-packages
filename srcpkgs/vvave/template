@@ -1,0 +1,16 @@
+# Template file for 'vvave'
+pkgname=vvave
+version=2.1.0
+revision=1
+build_style=cmake
+hostmakedepends="mauikit extra-cmake-modules gettext"
+makedepends="kirigami2-devel syntax-highlighting-devel knotifications-devel
+ qt5-websockets-devel qt5-webview-devel qt5-declarative-devel qt5-multimedia-devel
+ qt5-webengine-devel ki18n-devel kio-devel attica-devel taglib-devel"
+#depends="mauikit"
+short_desc="Multi-platform media player"
+maintainer="Michal Vasilek <michal@vasilek.cz>"
+license="GPL-3.0-or-later"
+homepage="https://invent.kde.org/maui/vvave/"
+distfiles="${KDE_SITE}/maui/vvave/${version}/vvave-${version}.tar.xz"
+checksum=73215b9fefca98f987845c5d7a9d206be45e16596a0b74d6c76bcadb1483b610
