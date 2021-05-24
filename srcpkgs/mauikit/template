@@ -1,0 +1,26 @@
+# Template file for 'mauikit'
+pkgname=mauikit
+version=2.1.0
+revision=1
+build_style=cmake
+hostmakedepends="extra-cmake-modules AppStream gettext"
+makedepends="kconfig-devel kconfigwidgets-devel kdeclarative-devel
+ kdecoration-devel ki18n-devel kio-devel knotifications-devel kservice-devel
+ plasma-framework-devel qt5-declarative-devel qt5-quickcontrols2-devel
+ qt5-svg-devel syntax-highlighting-devel xcb-util-wm-devel"
+depends="breeze-icons"
+short_desc="Kit for developing MAUI Apps"
+maintainer="Michal Vasilek <michal@vasilek.cz>"
+license="LGPL-3.0-or-later"
+homepage="https://mauikit.org/"
+distfiles="${KDE_SITE}/maui/mauikit/${version}/mauikit-${version}.tar.xz"
+checksum=577b999de9ee07e7db26b6686890bed9324d64823c2014315193ed39e183e355
+
+mauikit-devel_package() {
+	short_desc+=" - development files"
+	depends="${makedepends} ${sourcepkg}>=${version}_${revision}"
+	pkg_install() {
+		vmove usr/include
+		vmove usr/lib/cmake
+	}
+}
