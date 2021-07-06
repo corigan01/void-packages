@@ -1,0 +1,313 @@
+From 34de93e9b4a2078106f96ece1f4d82167bda091b Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@linux.microsoft.com>
+Date: Wed, 7 Apr 2021 18:42:38 +0200
+Subject: [PATCH] Add Landlock support
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Landlock is a Linux security module designed to sandbox applications
+such as GNU Tar.  It's goal is to help mitigate the impact of security
+vulnerabilities, or just bugs: https://landlock.io
+
+Landlock is now in linux-next and should then be part of Linux v5.13 .
+
+Because Landlock is designed as a best-effort security (enabled when
+available), nothing is changed if the build environment doesn't have
+linux/landlock.h (provided by a future libc-dev package).  This also
+means that there is no user-reachable option to enable or disable it:
+Landlock is enabled if available in the running system.
+
+This first step to sandbox GNU Tar is simple.  Restrictions are only
+enforced, according to the user-supplied subcommand, once the archive is
+opened.  Indeed, it would require more invasive changes to handle all
+supplied file hierarchy arguments (e.g. files to add to an archive).
+The value of this sandboxing is mainly to forbid a compromised GNU Tar
+process (because of a malicious archive) to write or execute arbitrary
+files.
+
+Landlock only restricts file opening, so file descriptor that are opened
+before the enforcement are still available.
+
+This patch adds a new helper tar_dirfd() to open and get the file
+descriptor used to extract an archive to.  This is required to mark this
+file hierarchy as allowed for writing.
+
+Test results from the GNU Tar test suite with this patch applied and a running
+kernel with Landlock enabled: 200 tests were successful and 38 tests were
+skipped.
+
+Signed-off-by: Mickaël Salaün <mic@linux.microsoft.com>
+---
+ configure.ac |   2 +-
+ src/common.h |  11 +++++
+ src/create.c |   1 +
+ src/delete.c |   1 +
+ src/list.c   |  10 +++++
+ src/misc.c   |   9 ++++
+ src/system.c | 121 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ src/update.c |   1 +
+ 8 files changed, 155 insertions(+), 1 deletion(-)
+
+diff --git a/configure.ac b/configure.ac
+index d09789af..1a8bc1f5 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -41,7 +41,7 @@ AC_CHECK_HEADERS_ONCE(fcntl.h linux/fd.h memory.h net/errno.h \
+   sys/param.h sys/device.h sys/gentape.h \
+   sys/inet.h sys/io/trioctl.h \
+   sys/mtio.h sys/time.h sys/tprintf.h sys/tape.h \
+-  unistd.h locale.h)
++  unistd.h locale.h linux/landlock.h)
+ 
+ AC_CHECK_HEADERS([sys/buf.h], [], [],
+ [#if HAVE_SYS_PARAM_H
+diff --git a/src/common.h b/src/common.h
+index 40ccdd12..3650b3f1 100644
+--- a/src/common.h
++++ b/src/common.h
+@@ -648,6 +648,7 @@ void namebuf_free (namebuf_t buf);
+ char *namebuf_name (namebuf_t buf, const char *name);
+ 
+ const char *tar_dirname (void);
++int tar_dirfd (void);
+ 
+ /* Represent N using a signed integer I such that (uintmax_t) I == N.
+    With a good optimizing compiler, this is equivalent to (intmax_t) i
+@@ -909,6 +910,16 @@ void sys_exec_checkpoint_script (const char *script_name,
+ 				 const char *archive_name,
+ 				 int checkpoint_number);
+ 
++#if HAVE_LINUX_LANDLOCK_H
++void sandbox_drop_write (void);
++void sandbox_drop_all (void);
++void sandbox_write_fd (int dir_fd);
++#else
++static inline void sandbox_drop_write (void) {}
++static inline void sandbox_drop_all (void) {}
++static inline void sandbox_write_fd (int dir_fd) {}
++#endif
++
+ /* Module compare.c */
+ void report_difference (struct tar_stat_info *st, const char *message, ...)
+   ATTRIBUTE_FORMAT ((printf, 2, 3));
+diff --git a/src/create.c b/src/create.c
+index 7ca742f5..cda7f20d 100644
+--- a/src/create.c
++++ b/src/create.c
+@@ -1351,6 +1351,7 @@ create_archive (void)
+   trivial_link_count = filename_args != FILES_MANY && ! dereference_option;
+ 
+   open_archive (ACCESS_WRITE);
++  sandbox_drop_write ();
+   buffer_write_global_xheader ();
+ 
+   if (incremental_option)
+diff --git a/src/delete.c b/src/delete.c
+index c4a8da16..3ccd3549 100644
+--- a/src/delete.c
++++ b/src/delete.c
+@@ -177,6 +177,7 @@ delete_archive_members (void)
+ 
+   name_gather ();
+   open_archive (ACCESS_UPDATE);
++  sandbox_drop_all ();
+   acting_as_filter = strcmp (archive_name_array[0], "-") == 0;
+ 
+   /* Skip to the first member that matches the name list. */
+diff --git a/src/list.c b/src/list.c
+index d7ef441f..d6bcabb4 100644
+--- a/src/list.c
++++ b/src/list.c
+@@ -174,6 +174,14 @@ read_and (void (*do_something) (void))
+   name_gather ();
+ 
+   open_archive (ACCESS_READ);
++  if (do_something == extract_archive) {
++    sandbox_write_fd(tar_dirfd());
++  } else if (do_something == diff_archive) {
++    sandbox_drop_write();
++  } else {
++    sandbox_drop_all();
++  }
++
+   do
+     {
+       prev_status = status;
+@@ -1450,6 +1458,8 @@ test_archive_label (void)
+   name_gather ();
+ 
+   open_archive (ACCESS_READ);
++  sandbox_drop_all ();
++
+   if (read_header (&current_header, &current_stat_info, read_header_auto)
+       == HEADER_SUCCESS)
+     {
+diff --git a/src/misc.c b/src/misc.c
+index f14d938c..8353ef02 100644
+--- a/src/misc.c
++++ b/src/misc.c
+@@ -1034,6 +1034,15 @@ tar_dirname (void)
+   return wd[chdir_current].name;
+ }
+ 
++int
++tar_dirfd (void)
++{
++  chdir_do (chdir_count ());
++  if (!wd || wd_count == 0 || wd[chdir_count ()].fd == AT_FDCWD)
++    return -1;
++  return wd[chdir_count ()].fd;
++}
++
+ /* Return the absolute path that represents the working
+    directory referenced by IDX.
+ 
+diff --git a/src/system.c b/src/system.c
+index eb41c28d..7b15a442 100644
+--- a/src/system.c
++++ b/src/system.c
+@@ -23,6 +23,12 @@
+ #include <signal.h>
+ #include <wordsplit.h>
+ 
++#if HAVE_LINUX_LANDLOCK_H
++# include <linux/landlock.h>
++# include <sys/prctl.h>
++# include <sys/syscall.h>
++#endif
++
+ static _Noreturn void
+ xexec (const char *cmd)
+ {
+@@ -895,3 +901,118 @@ sys_exec_checkpoint_script (const char *script_name,
+ }
+ 
+ #endif /* not MSDOS */
++
++#if HAVE_LINUX_LANDLOCK_H
++
++#ifndef landlock_create_ruleset
++static inline int
++landlock_create_ruleset(const struct landlock_ruleset_attr *const attr,
++			const size_t size, const __u32 flags)
++{
++	return syscall(__NR_landlock_create_ruleset, attr, size, flags);
++}
++#endif
++
++#ifndef landlock_add_rule
++static inline int
++landlock_add_rule(const int ruleset_fd,
++		  const enum landlock_rule_type rule_type,
++		  const void *const rule_attr, const __u32 flags)
++{
++	return syscall(__NR_landlock_add_rule, ruleset_fd, rule_type,
++			rule_attr, flags);
++}
++#endif
++
++#ifndef landlock_restrict_self
++static inline int
++landlock_restrict_self(const int ruleset_fd, const __u32 flags)
++{
++	return syscall(__NR_landlock_restrict_self, ruleset_fd, flags);
++}
++#endif
++
++static void
++sandbox_drop (__u64 fs_access)
++{
++  const struct landlock_ruleset_attr ruleset_attr = {
++    .handled_access_fs = fs_access,
++  };
++  int ruleset_fd;
++
++  ruleset_fd = landlock_create_ruleset(&ruleset_attr, sizeof(ruleset_attr), 0);
++  if (ruleset_fd < 0)
++    return;
++  prctl(PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0);
++  if (landlock_restrict_self(ruleset_fd, 0))
++    perror ("landlock_restrict_self");
++  close(ruleset_fd);
++}
++
++#define _LANDLOCK_ACCESS_FS_WRITE ( \
++  LANDLOCK_ACCESS_FS_WRITE_FILE | \
++  LANDLOCK_ACCESS_FS_REMOVE_DIR | \
++  LANDLOCK_ACCESS_FS_REMOVE_FILE | \
++  LANDLOCK_ACCESS_FS_MAKE_CHAR | \
++  LANDLOCK_ACCESS_FS_MAKE_DIR | \
++  LANDLOCK_ACCESS_FS_MAKE_REG | \
++  LANDLOCK_ACCESS_FS_MAKE_SOCK | \
++  LANDLOCK_ACCESS_FS_MAKE_FIFO | \
++  LANDLOCK_ACCESS_FS_MAKE_BLOCK | \
++  LANDLOCK_ACCESS_FS_MAKE_SYM)
++
++#define _LANDLOCK_ACCESS_FS_READ ( \
++  LANDLOCK_ACCESS_FS_READ_FILE | \
++  LANDLOCK_ACCESS_FS_READ_DIR)
++
++void
++sandbox_drop_write (void)
++{
++  sandbox_drop(_LANDLOCK_ACCESS_FS_WRITE | \
++    LANDLOCK_ACCESS_FS_EXECUTE);
++}
++
++void
++sandbox_drop_all (void)
++{
++  sandbox_drop(_LANDLOCK_ACCESS_FS_READ | \
++    _LANDLOCK_ACCESS_FS_WRITE | \
++    LANDLOCK_ACCESS_FS_EXECUTE);
++}
++
++void
++sandbox_write_fd (const int dir_fd)
++{
++  const struct landlock_ruleset_attr ruleset_attr = {
++    .handled_access_fs = \
++      _LANDLOCK_ACCESS_FS_READ | \
++      _LANDLOCK_ACCESS_FS_WRITE | \
++      LANDLOCK_ACCESS_FS_EXECUTE,
++  };
++  struct landlock_path_beneath_attr path_beneath = {
++    .allowed_access = _LANDLOCK_ACCESS_FS_WRITE,
++  };
++  int ruleset_fd;
++
++  ruleset_fd = landlock_create_ruleset(&ruleset_attr, sizeof(ruleset_attr), 0);
++  if (ruleset_fd < 0)
++    return;
++  if (dir_fd == -1)
++    path_beneath.parent_fd = open(".", O_PATH | O_CLOEXEC | O_DIRECTORY);
++  else
++    path_beneath.parent_fd = dir_fd;
++
++  if (!landlock_add_rule(ruleset_fd, LANDLOCK_RULE_PATH_BENEATH, &path_beneath, 0)) {
++    prctl(PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0);
++    if (landlock_restrict_self(ruleset_fd, 0))
++      perror ("landlock_restrict_self");
++  } else {
++    perror ("landlock_add_rule");
++  }
++
++  if (dir_fd == -1)
++    close (path_beneath.parent_fd);
++  close(ruleset_fd);
++}
++
++#endif /* HAVE_LINUX_LANDLOCK_H */
+diff --git a/src/update.c b/src/update.c
+index c1bb9cc2..469916b6 100644
+--- a/src/update.c
++++ b/src/update.c
+@@ -110,6 +110,7 @@ update_archive (void)
+ 
+   name_gather ();
+   open_archive (ACCESS_UPDATE);
++  sandbox_drop_write ();
+   xheader_forbid_global ();
+ 
+   while (!found_end)
