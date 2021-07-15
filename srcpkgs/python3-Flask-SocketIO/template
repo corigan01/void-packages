@@ -1,0 +1,21 @@
+# Template file for 'python3-Flask-SocketIO'
+pkgname=python3-Flask-SocketIO
+version=5.1.0
+revision=1
+wrksrc="Flask-SocketIO-$version"
+build_style=python3-module
+#hostmakedepends="python3-socketio"
+# makedepends=""
+depends="python3-Flask python3-socketio"
+checkdepends="python3-pytest"
+short_desc="Socket.IO integration for Flask applications"
+maintainer="Michal Vasilek <michal@vasilek.cz>"
+license="MIT"
+homepage="https://github.com/miguelgrinberg/Flask-SocketIO/"
+distfiles="https://github.com/miguelgrinberg/Flask-SocketIO/archive/refs/tags/v$version.tar.gz"
+checksum=f85bfab91354d5c2c8809cc6703a2c8a83d3cfe030e5c36537d50f4690102169
+make_check=no # needs pip
+
+post_install() {
+	vlicense LICENSE
+}
