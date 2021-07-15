@@ -1,0 +1,16 @@
+# Template file for 'python3-engineio'
+pkgname=python3-engineio
+version=4.2.0
+revision=1
+wrksrc="python-engineio-$version"
+build_style=python3-module
+hostmakedepends=""
+makedepends=""
+depends=""
+short_desc="Python Engine.IO server and client"
+maintainer="Michal Vasilek <michal@vasilek.cz>"
+license="GPL-3.0-or-later"
+homepage="https://github.com/miguelgrinberg/python-engineio/"
+distfiles="https://github.com/miguelgrinberg/python-engineio/archive/refs/tags/v$version.tar.gz"
+checksum=d8f23be5b737c03df4444fb476fa7f575e08c9ef5a31229ff25e49919861cff7
+make_check=no # needs pip
