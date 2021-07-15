@@ -1,0 +1,20 @@
+# Template file for 'python3-socketio'
+pkgname=python3-socketio
+version=5.3.0
+revision=1
+wrksrc="python-socketio-$version"
+build_style=python3-module
+hostmakedepends=""
+makedepends=""
+depends="python3-engineio"
+short_desc="Python Socket.IO server and client"
+maintainer="Michal Vasilek <michal@vasilek.cz>"
+license="MIT"
+homepage="https://github.com/miguelgrinberg/python-socketio"
+distfiles="https://github.com/miguelgrinberg/python-socketio/archive/refs/tags/v$version.tar.gz"
+checksum=2d7f1ecc73fa5f2bc2333b13038d5e3015ca6ecfe566e72dd236b76c33d08a0a
+make_check=no # needs pip
+
+post_install() {
+	vlicense LICENSE
+}
