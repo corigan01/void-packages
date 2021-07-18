@@ -1,23 +1,20 @@
 # Template file for 'onionshare'
 pkgname=onionshare
-version=2.2
-revision=5
+version=2.3.2
+revision=1
 build_style=python3-module
-pycompile_dirs="/usr/share/nautilus-python/extensions"
+build_wrksrc=cli
+#pycompile_dirs="/usr/share/nautilus-python/extensions"
+#hostmakedepends="python3-poetry-core"
 hostmakedepends="python3-setuptools"
+checkdepends="python3-pytest python3-colorama python3-requests python3-Flask-HTTPAuth python3-Flask-SocketIO python3-socketio python3-engineio python3-bidict python3-Unidecode python3-stem python3-crypto python3-psutil"
 depends="python3-Flask-HTTPAuth python3-pycryptodome python3-PyQt5
  python3-pysocks python3-requests python3-stem tor"
 short_desc="Share files anonymously and securely"
-maintainer="Orphaned <orphan@voidlinux.org>"
+maintainer="Michal Vasilek <michal@vasilek.cz>"
 license="GPL-3.0-or-later"
 homepage="https://onionshare.org/"
 changelog="https://raw.githubusercontent.com/micahflee/onionshare/develop/CHANGELOG.md"
 distfiles="https://github.com/micahflee/onionshare/archive/v${version}.tar.gz"
-checksum=7173863d7582b05aa8fd0d2207236e3cbbb38d854aad65e3b98ec5baad521fc2
-
-conf_files="/etc/apparmor.d/local/*"
-
-post_install() {
-	vmkdir etc/apparmor.d
-	vcopy "apparmor/*" etc/apparmor.d/
-}
+checksum=16c856b46213ffa836724415a22291fa4eb820a5425e6d9fbdfd3f11e03ef983
+make_check=no # broken, TODO: possibly old flask
