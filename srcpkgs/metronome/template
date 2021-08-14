@@ -1,0 +1,15 @@
+# Template file for 'metronome'
+pkgname=metronome
+version=1.0.0
+revision=1
+build_style=meson
+build_helper=rust
+hostmakedepends="rust cargo pkg-config gettext"
+makedepends="gtk4-devel libadwaita-devel libglib-devel"
+depends=""
+short_desc="Practice music with a regular tempo"
+maintainer="Michal Vasilek <michal@vasilek.cz>"
+license="GPL-3.0-or-later"
+homepage="https://gitlab.gnome.org/aplazas/metronome/"
+distfiles="https://gitlab.gnome.org/aplazas/metronome/-/archive/$version/metronome-$version.tar.gz"
+checksum=a8063cd59201a650daea891639df368ec99ded14c18b28bdcc9591f1d03f9ebd
