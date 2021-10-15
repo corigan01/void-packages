@@ -1,0 +1,19 @@
+# Template file for 'hunspell-cs_CZ'
+pkgname=hunspell-cs_CZ
+version=2021.03.01
+revision=1
+create_wrksrc=yes
+hostmakedepends="unzip"
+short_desc="Czech cs_CZ dictionary for hunspell"
+maintainer="Michal Vasilek <michal@vasilek.cz"
+license="GPL-2.0-only"
+homepage="http://www.translatoblog.cz/"
+distfiles="http://www.translatoblog.cz/wp-content/uploads/2021/03/hunspell_cs.zip"
+checksum=fa6a9c73fef141b85621f694a84f6cfdcd54fa5b1c9bd65f395c22e213456ef6
+
+do_install() {
+	vinstall cs_CZ.aff 644 /usr/share/hunspell
+	vinstall cs_CZ.dic 644 /usr/share/hunspell
+	vinstall zmeny-aff.txt 644 /usr/share/hunspell
+	vinstall zmeny-aff.txt 644 /usr/share/hunspell
+}
