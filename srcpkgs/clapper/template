@@ -1,0 +1,22 @@
+# Template file for 'clapper'
+pkgname=clapper
+version=0.4.1
+revision=1
+#archs="i686 x86_64"
+#wrksrc=
+#create_wrksrc=yes
+build_style=meson
+#configure_args=""
+#make_build_args=""
+#make_install_args=""
+#conf_files=""
+#make_dirs="/var/log/dir 0755 root root"
+hostmakedepends="pkg-config gobject-introspection gjs gettext"
+makedepends="libadwaita-devel gstreamer1-devel"
+depends=""
+short_desc="GNOME media player built using GJS with GTK4 toolkit"
+maintainer="Michal Vasilek <michal@vasilek.cz>"
+license="GPL-3.0-or-later"
+homepage="https://github.com/Rafostar/clapper"
+distfiles="https://github.com/Rafostar/clapper/archive/refs/tags/$version.tar.gz"
+checksum=ba397e1a079ffeebc8f060aad84342ccfbdee2c57fcd714b06bc5f94aa695fac
