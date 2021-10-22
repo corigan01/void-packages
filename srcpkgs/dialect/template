@@ -1,0 +1,24 @@
+# Template file for 'dialect'
+pkgname=dialect
+version=1.4.1
+revision=1
+build_style=meson
+create_wrksrc=yes
+build_wrksrc="dialect-$version"
+hostmakedepends="pkg-config gobject-introspection glib-devel gettext"
+makedepends="gtk+3-devel python3-gobject-devel"
+depends="libhandy1 gstreamer1 python3-gobject python3-googletrans python3-gTTS
+ python3-dbus python3-httpx"
+short_desc="Translation app for GNOME"
+maintainer="Michal Vasilek <michal@vasilek.cz>"
+license="GPL-3.0-or-later"
+homepage="https://github.com/dialect-app/dialect/"
+distfiles="https://github.com/dialect-app/dialect/archive/refs/tags/$version.tar.gz>dialect-$version.tar.gz
+ https://github.com/dialect-app/po/archive/refs/tags/$version.tar.gz>po-$version.tar.gz"
+checksum="85d8c04044ffcef6df20bd69b478e8838a9ec1d3f43e6305b2a3eb945bf83aa5
+ ec71fa6ef055c7b02928f56fe616730e8af0ad9f7ab98b38a9832a8e93d6b5d8"
+
+pre_configure() {
+	rmdir po
+	mv ../po-$version po
+}
