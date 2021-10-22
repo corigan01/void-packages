@@ -1,0 +1,16 @@
+# Template file for 'python3-gTTS'
+pkgname=python3-gTTS
+version=2.2.3
+revision=1
+wrksrc="gTTS-$version"
+build_style=python3-module
+hostmakedepends="python3-setuptools"
+depends="python3-six python3-click python3-requests"
+checkdepends="python3-pytest python3-mock python3-testfixtures $depends"
+short_desc="https://gtts.readthedocs.org/"
+maintainer="Michal Vasilek <michal@vasilek.cz>"
+license="MIT"
+homepage="https://gtts.readthedocs.org/"
+changelog="https://raw.githubusercontent.com/pndurette/gTTS/master/CHANGELOG.rst"
+distfiles="https://github.com/pndurette/gTTS/archive/refs/tags/v$version.tar.gz"
+checksum=594b1e8d0ba4fefe20bd1de40fca9569e6f7f65122aa290085c0bd41180f3dc6
