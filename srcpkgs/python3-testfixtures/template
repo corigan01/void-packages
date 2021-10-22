@@ -1,0 +1,20 @@
+# Template file for 'python3-testfixtures'
+pkgname=python3-testfixtures
+version=6.18.3
+revision=1
+wrksrc=testfixtures-$version
+build_style=python3-module
+hostmakedepends="python3-setuptools"
+makedepends=""
+depends=""
+short_desc="Collection of helpers and mock objects for automated tests"
+maintainer="Michal Vasilek <michal@vasilek.cz>"
+license="MIT"
+homepage="https://testfixtures.readthedocs.io/"
+distfiles="https://github.com/simplistix/testfixtures/archive/refs/tags/$version.tar.gz"
+checksum=33522d8c6439b8d881a701c7d7e1cbcfd5e19faae50a47fea26b06bcd37face8
+make_check=no # needs unpackaged dependencies
+
+post_install() {
+	vlicense LICENSE.txt LICENSE
+}
