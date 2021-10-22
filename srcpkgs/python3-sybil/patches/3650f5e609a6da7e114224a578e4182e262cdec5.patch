@@ -1,0 +1,39 @@
+From 3650f5e609a6da7e114224a578e4182e262cdec5 Mon Sep 17 00:00:00 2001
+From: Chris Withers <chris@simplistix.co.uk>
+Date: Tue, 5 Oct 2021 08:29:21 +0100
+Subject: [PATCH] More specific pattern matching to help with Python 3.10
+
+---
+ tests/test_functional.py | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/tests/test_functional.py b/tests/test_functional.py
+index 6e77053..5bebfdb 100644
+--- a/tests/test_functional.py
++++ b/tests/test_functional.py
+@@ -15,7 +15,7 @@ def __init__(self, text):
+         self.index = 0
+ 
+     def then_find(self, substring):
+-        assert substring in self.text[self.index:]
++        assert substring in self.text[self.index:], self.text[self.index:]
+         self.index = self.text.index(substring, self.index)
+ 
+ 
+@@ -99,14 +99,14 @@ def pytest_sessionfinish(self, session):
+                   'sybil teardown 4\n'
+                   'session_fixture teardown')
+     out.then_find('_ fail.rst line=1 column=1 _')
+-    out.then_find(  ">   raise Exception('the start!')")
++    out.then_find("raise Exception('the start!')")
+     out.then_find('_ fail.rst line=8 column=1 _')
+     out.then_find('Y count was 3 instead of 2')
+     out.then_find('fail.rst:8: SybilFailure')
+     out.then_find('_ fail.rst line=10 column=1 _')
+     out.then_find('ValueError: X count was 3 instead of 4')
+     out.then_find('_ fail.rst line=14 column=1 _')
+-    out.then_find(">       raise Exception('boom!')")
++    out.then_find("raise Exception('boom!')")
+     out.then_find('fail.rst:18: Exception')
+ 
+ 

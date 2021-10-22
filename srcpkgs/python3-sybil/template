@@ -1,0 +1,21 @@
+# Template file for 'python3-sybil'
+pkgname=python3-sybil
+version=2.0.1
+revision=1
+wrksrc="sybil-$version"
+build_style=python3-module
+hostmakedepends="python3-setuptools"
+makedepends=""
+depends=""
+checkdepends="python3-pytest"
+short_desc="Automated testing for the examples in your documentation"
+maintainer="Michal Vasilek <michal@vasilek.cz>"
+license="MIT"
+homepage="https://sybil.readthedocs.io/en/latest/"
+changelog="https://raw.githubusercontent.com/simplistix/sybil/master/docs/changes.rst"
+distfiles="https://github.com/simplistix/sybil/archive/refs/tags/$version.tar.gz"
+checksum=a99e18e9fde96b77f8138ee90ee6503baf4525d2c3b6acc7174131f22d5b088e
+
+post_install() {
+	vlicense docs/license.rst
+}
