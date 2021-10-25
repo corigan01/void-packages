@@ -11,9 +11,9 @@ configure_args="--enable-shared --enable-ipv6
  --with-dbmliborder=gdbm:ndbm --with-system-expat --with-system-ffi
  --without-ensurepip ac_cv_working_tzset=yes"
 pycompile_dirs="usr/lib/python${version%.*}"
-hostmakedepends="pkgconf"
+hostmakedepends="pkg-config autoconf automake libtool autoconf-archive"
 makedepends="libffi-devel readline-devel gdbm-devel openssl-devel
- expat-devel sqlite-devel bzip2-devel zlib-devel liblzma-devel"
+ expat-devel sqlite-devel bzip2-devel zlib-devel liblzma-devel libbluetooth-devel"
 depends="ca-certificates"
 checkdepends="$depends iana-etc"
 short_desc="Python programming language (${version%.*} series)"
@@ -61,6 +61,7 @@ post_patch() {
 }
 
 do_configure() {
+	autoreconf -fi
 	# If these are set, distutils will default to cc and attempt to pass
 	# `-R<path>` to the compiler for every compiled extension that sets an
 	# rpath rather than the '-Wl,-R<path>' argument that GCC requires
