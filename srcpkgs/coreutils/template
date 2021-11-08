@@ -3,6 +3,7 @@ pkgname=coreutils
 version=9.0
 revision=1
 bootstrap=yes
+hostmakedepends="automake autoconf libtool gettext-devel"
 makedepends="gmp-devel acl-devel libcap-devel"
 short_desc="GNU core utilities"
 maintainer="Enno Boland <gottox@voidlinux.org>"
@@ -32,6 +33,7 @@ alternatives="
  hostname:hostname.1:/usr/share/man/man1/hostname-coreutils.1"
 
 pre_configure() {
+    autoreconf -fi
 	# Build natively all utils for the host, we need this to generate
 	# the manpages via help2man.
 	if [ "$CROSS_BUILD" ]; then
