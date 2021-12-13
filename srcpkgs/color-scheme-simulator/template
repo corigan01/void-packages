@@ -1,0 +1,15 @@
+# Template file for 'color-scheme-simulator'
+pkgname=color-scheme-simulator
+version=0
+revision=1
+_commit=16eab2895f6e28c2aadd846c2283d7b95e2fd73f
+wrksrc="$pkgname-$_commit"
+build_style=meson
+hostmakedepends="vala pkg-config gettext"
+makedepends="libadwaita-devel"
+short_desc="Color schemes on systems with GNOME 40 or 41"
+maintainer="Michal Vasilek <michal@vasilek.cz>"
+license="GPL-3.0-or-later"
+homepage="https://gitlab.gnome.org/exalm/color-scheme-simulator/"
+distfiles="https://gitlab.gnome.org/exalm/color-scheme-simulator/-/archive/$_commit/color-scheme-simulator-$_commit.tar.gz"
+checksum=d1787ccce4a97873466cfc390e6fe35cfb148467c91c1ecfec9b85d64eb2aeb3
