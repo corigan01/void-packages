@@ -1,0 +1,16 @@
+# Template file for 'cinny'
+pkgname=cinny
+version=1.7.0
+revision=1
+create_wrksrc=yes
+short_desc="Elegant and secure matrix web client"
+maintainer="Michal Vasilek <michal@vasilek.cz>"
+license="MIT"
+homepage="https://cinny.in/"
+distfiles="https://github.com/ajbura/cinny/releases/download/v$version/cinny-v$version.tar.gz"
+checksum=33255c84b60b82a17927bb26fd677276a93bc7e8745c619789c002dfff6a6304
+
+do_install() {
+	vmkdir var/www
+	vcopy dist var/www/cinny
+}
