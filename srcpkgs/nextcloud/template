@@ -1,0 +1,19 @@
+# Template file for 'nextcloud'
+pkgname=nextcloud
+version=23.0.4
+revision=1
+create_wrksrc=yes
+depends="php8.0"
+short_desc="Nextcloud server, a safe home for all your data"
+maintainer="Michal Vasilek <michal@vasilek.cz>"
+license="AGPL-3.0-or-later"
+homepage="https://nextcloud.com/"
+distfiles="https://download.nextcloud.com/server/releases/nextcloud-$version.tar.bz2"
+checksum=67191c2b8b41591ae42accfb32216313fde0e107201682cb39029f890712bc6a
+nostrip=yes
+
+do_install() {
+	vmkdir /var/www
+	vcopy nextcloud /var/www/nextcloud
+	vlicense nextcloud/COPYING
+}
