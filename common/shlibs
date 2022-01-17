@@ -4198,3 +4198,5 @@ libabsl_strings.so.2206.0.0 abseil-cpp-20220623.1_1
 libabsl_throw_delegate.so.2206.0.0 abseil-cpp-20220623.1_1
 libabsl_time_zone.so.2206.0.0 abseil-cpp-20220623.1_1
 libabsl_spinlock_wait.so.2206.0.0 abseil-cpp-20220623.1_1
+libLimeSuite.so.20.10-1 LimeSuite-20.10.0_1
+libayatana-ido3-0.4.so.0 ayatana-ido-0.9.1_1
