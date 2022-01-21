@@ -1,0 +1,133 @@
+From 71a74d22ed700650a83b7cb653bd92b0ed3cd01a Mon Sep 17 00:00:00 2001
+From: aramg <aramg@users.noreply.github.com>
+Date: Fri, 4 Mar 2022 21:36:12 -0800
+Subject: [PATCH] Support ayatana-appindicator
+
+---
+ Makefile       | 19 +++++++++++++++----
+ README.md      | 20 ++++++++------------
+ src/droidcam.c | 11 +++++++----
+ 3 files changed, 30 insertions(+), 20 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 7be3c15..b372b09 100644
+--- a/Makefile
++++ b/Makefile
+@@ -6,24 +6,35 @@
+ # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ # Use at your own risk. See README file for more details.
+ 
+-JPEG_DIR ?= /opt/libjpeg-turbo
++#
++# Variables with ?= can be changed during invocation
++# Example:
++#  APPINDICATOR=ayatana-appindicator3-0.1 make droidcam
++
++APPINDICATOR ?= appindicator3-0.1
++JPEG_DIR     ?= /opt/libjpeg-turbo
+ JPEG_INCLUDE ?= $(JPEG_DIR)/include
+-JPEG_LIB ?= $(JPEG_DIR)/lib`getconf LONG_BIT`
++JPEG_LIB     ?= $(JPEG_DIR)/lib`getconf LONG_BIT`
++
+ 
+ CC   = gcc
+ CFLAGS = -Wall -O2
+ GTK   = `pkg-config --libs --cflags gtk+-3.0` `pkg-config --libs x11`
+-GTK  += `pkg-config --cflags --libs appindicator3-0.1`
++GTK  += `pkg-config --libs --cflags $(APPINDICATOR)`
+ LIBAV = `pkg-config --libs --cflags libswscale libavutil`
+ LIBS  =  -lspeex -lasound -lpthread -lm
+ JPEG  = -I$(JPEG_INCLUDE) $(JPEG_LIB)/libturbojpeg.a
+ SRC   = src/connection.c src/settings.c src/decoder*.c src/av.c src/usb.c src/queue.c
+ USBMUXD = -lusbmuxd
+ 
++ifneq ($(findstring ayatana,$(APPINDICATOR)),)
++	CFLAGS += -DUSE_AYATANA_APPINDICATOR
++endif
++
++
+ all: droidcam-cli droidcam
+ 
+ ifneq "$(RELEASE)" ""
+-LIBAV = /usr/lib/x86_64-linux-gnu/libswscale.a /usr/lib/x86_64-linux-gnu/libavutil.a
+ SRC  += src/libusbmuxd.a src/libxml2.a src/libplist-2.0.a
+ package: clean all
+ 	zip "droidcam_$(RELEASE).zip" \
+diff --git a/README.md b/README.md
+index d1fcba0..b8c15e3 100644
+--- a/README.md
++++ b/README.md
+@@ -28,26 +28,20 @@ libusbmuxd-dev
+ libplist-dev
+ 
+ gtk+-3.0               # Only needed for GUI client
+-libappindicator3-dev   # Only needed for GUI client**
++libappindicator3-dev   # Only needed for GUI client^^
+ 
+ ```
+ 
+ Run `make`, or `make droidcam-cli` if you skipped installing GTK+, to build the droidcam binaries.
+ 
+-To install, run `sudo ./install-client`.
++To install, run `sudo ./install-client`
+ 
+-#### **libappindicator
++^^ Some distros are removing libappindicator in their latest versions (Ubuntu 21+, Fedora 33+, Debian Bullseye+), which is used for system tray icon.
++The new dependency is `libayatana-appindicator3-dev`
+ 
+-Some distros are removing libappindicator support, which is used for system tray icon.
++Building:
+ 
+-On Ubuntu 21, use sudo apt install libappindicator3-1.
+-
+-On Fedora 33, use sudo dnf install libappindicator-gtk3
+-
+-For Debian Bullseye, get:
+-
+-https://files.dev47apps.net/linux/libindicator3-7_0.5.0-4_amd64.deb
+-https://files.dev47apps.net/linux/libappindicator3-1_0.4.92-7_amd64.deb
++`APPINDICATOR=ayatana-appindicator3-0.1 make droidcam`
+ 
+ 
+ ## V4L2 Loopback (Webcam driver)
+@@ -71,6 +65,8 @@ Debian/Ubuntu and RHEL (Fedora/SUSE) based distros:
+ 
+ ## Sound
+ 
++DroidCam can use the Linux ALSA Loopback sound card for audio. There are many differences and quirks with the audio layers on different Linux systems. It’s recommended you use a regular microphone and keep droidcam for video only.
++
+ Run `sudo ./install-sound` to load the Linux ALSA Loopback sound card which the Droidcam client will use for audio input.
+ 
+ To get the mic to show up in PulseAudio you can either run `pacmd load-module module-alsa-source device=hw:Loopback,1,0` (you may need to adjust the last number),
+diff --git a/src/droidcam.c b/src/droidcam.c
+index cad1ee4..b8e93cf 100644
+--- a/src/droidcam.c
++++ b/src/droidcam.c
+@@ -7,7 +7,12 @@
+  */
+ 
+ #include <gtk/gtk.h>
++#ifdef USE_AYATANA_APPINDICATOR
++#include <libayatana-appindicator/app-indicator.h>
++#else
+ #include <libappindicator/app-indicator.h>
++#endif
++
+ #include <X11/Xlib.h>
+ #include <stdint.h>
+ 
+@@ -280,12 +285,10 @@ static void the_callback(GtkWidget* widget, gpointer extra)
+ 			ipEdit = FALSE;
+ 		break;
+ 		case CB_BTN_OTR:
+-			gtk_menu_popup(GTK_MENU(menu), NULL, NULL, NULL, NULL, 0, 0);
+-			// TODO drop support for older OSs and use
+-			// gtk_menu_popup_at_pointer(GTK_MENU(menu), NULL);
++			gtk_menu_popup_at_pointer(GTK_MENU(menu), NULL);
+ 		break;
+ 		case CB_BTN_WB:
+-			gtk_menu_popup(GTK_MENU(wbMenu), NULL, NULL, NULL, NULL, 0, 0);
++			gtk_menu_popup_at_pointer(GTK_MENU(menu), NULL);
+ 		break;
+ 		case CB_BTN_EL:
+ 			if (v_running != 1 || thread_cmd != 0) {
