@@ -1,0 +1,11 @@
+--- a/src/makemake.in
++++ b/src/makemake.in
+@@ -801,7 +801,7 @@
+ fi
+ 
+ # HERE = prefix to ensure that executables are looked up in current directory
+-HERE='./'
++HERE='qemu-aarch64-static ./'
+ 
+ # PREFIX = prefix for installation directories
+ # (This should not end in a backslash. Add a space to avoid this.)
