@@ -1,0 +1,19 @@
+# Template file for 'hedgedoc'
+pkgname=hedgedoc
+version=1.9.2
+wrksrc="$pkgname"
+revision=1
+hostmakedepends="yarn nodejs16 git"
+makedepends=""
+depends="yarn nodejs16"
+short_desc="Open-source, web-based, self-hosted, collaborative markdown editor"
+maintainer="Michal Vasilek <michal@vasilek.cz>"
+license="AGPL-3.0-or-later"
+homepage="https://hedgedoc.org/"
+distfiles="https://github.com/hedgedoc/hedgedoc/releases/download/$version/hedgedoc-$version.tar.gz"
+checksum=052088a634731e0f9c28e40f9869281f24bf3fbb25173a341ba2c94496109f51
+
+do_install() {
+	bin/setup
+	vlicense LICENSE
+}
