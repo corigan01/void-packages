@@ -1,6 +1,6 @@
 # Template file for 'blackbox_exporter'
 pkgname=blackbox_exporter
-version=0.18.0
+version=0.19.0
 revision=1
 build_style=go
 go_import_path="github.com/prometheus/blackbox_exporter"
@@ -14,7 +14,7 @@ license="Apache-2.0"
 homepage="https://prometheus.io"
 changelog="https://github.com/prometheus/blackbox_exporter/releases"
 distfiles="https://github.com/prometheus/blackbox_exporter/archive/v${version}.tar.gz"
-checksum=b41f1301c991c0d0011652e2093588521925d1960c6f7649f96edecbf1aadfb8
+checksum=47e776896c0bf50f2af9cb90c1e2bbdee6b2321489bf4244dead7e88754c6487
 
 system_accounts="_bbox_exporter"
 
