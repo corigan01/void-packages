@@ -1,0 +1,11 @@
+# Template file for 'xtl'
+pkgname=xtl
+version=0.7.2
+revision=1
+build_style=cmake
+short_desc="The x template library"
+maintainer="Michal Vasilek <michal@vasilek.cz>"
+license="GPL-3.0-or-later"
+homepage="https://github.com/xtensor-stack/xtl"
+distfiles="https://github.com/xtensor-stack/xtl/archive/${version}.tar.gz"
+checksum=95c221bdc6eaba592878090916383e5b9390a076828552256693d5d97f78357c
