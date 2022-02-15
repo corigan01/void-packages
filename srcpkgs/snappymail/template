@@ -1,6 +1,6 @@
 # Template file for 'snappymail'
 pkgname=snappymail
-version=2.11.0
+version=2.12.2
 revision=1
 wrksrc=$pkgname
 short_desc="Simple, modern & fast web-based email client"
@@ -8,7 +8,7 @@ maintainer="Michal Vasilek <michal@vasilek.cz>"
 license="GPL-3.0-or-later"
 homepage="https://snappymail.eu/"
 distfiles="https://github.com/the-djmaze/snappymail/releases/download/v$version/snappymail-$version.tar.gz"
-checksum=58b29b47b39305814fe41c4895ad0d7301530324da0426c1a792fb26e83d52a7
+checksum=eb6a564af884e93d16eaf85ec5f8cd5c335ca80e00f3fefd7e481c96ea36d30b
 
 do_install() {
 	vmkdir var/www/snappymail
