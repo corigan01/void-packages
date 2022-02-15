@@ -1,0 +1,13 @@
+# Template file for 'xeus'
+pkgname=xeus
+version=2.3.1
+revision=1
+build_style=cmake
+hostmakedepends=""
+makedepends="json-c++ xtl cppzmq openssl-devel libuuid-devel"
+short_desc="C++ implementation of the Jupyter kernel protocol"
+maintainer="Michal Vasilek <michal@vasilek.cz>"
+license="BSD-3-Clause"
+homepage="https://github.com/jupyter-xeus/xeus"
+distfiles="https://github.com/jupyter-xeus/xeus/archive/refs/tags/$version.tar.gz"
+checksum=56a218cba94fb10a27e65d41b6c7d3f4e7df652b2eb2fbbba061ef25f4ed210a
