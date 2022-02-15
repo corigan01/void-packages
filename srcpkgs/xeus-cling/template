@@ -1,0 +1,23 @@
+# Template file for 'xeus-cling'
+pkgname=xeus-cling
+version=0.13.0
+revision=1
+#archs="i686 x86_64"
+#wrksrc=
+#create_wrksrc=yes
+build_style=cmake
+#configure_args=""
+#make_build_args=""
+#make_install_args=""
+#conf_files=""
+#make_dirs="/var/log/dir 0755 root root"
+hostmakedepends="llvm12 clang pkg-config clang-tools-extra"
+makedepends="xeus xtl json-c++ cppzmq libuuid-devel openssl-devel pugixml-devel
+ libxml2-devel zlib-devel cling"
+depends=""
+short_desc="Jupyter kernel for the C++ programming language"
+maintainer="Michal Vasilek <michal@vasilek.cz>"
+license="BSD-3-Clause"
+homepage="https://github.com/jupyter-xeus/xeus-cling"
+distfiles="https://github.com/jupyter-xeus/xeus-cling/archive/refs/tags/$version.tar.gz"
+checksum=064e3bf0b05eb9dcc46755d30d47543cb5b6f845c9e3ff0fb9c5837825ec8d98
