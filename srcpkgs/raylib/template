@@ -1,0 +1,25 @@
+# Template file for 'raylib'
+pkgname=raylib
+version=4.0.0
+revision=1
+build_style=cmake
+configure_args="-DBUILD_SHARED_LIBS=ON"
+makedepends="libX11-devel libXrandr-devel libXinerama-devel libXcursor-devel
+ libXi-devel glfw-devel"
+short_desc="Simple and easy-to-use library to enjoy videogames programming"
+maintainer="Michal Vasilek <michal@vasilek.cz>"
+license="Zlib"
+homepage="https://www.raylib.com/"
+distfiles="https://github.com/raysan5/raylib/archive/refs/tags/$version.tar.gz"
+checksum=11f6087dc7bedf9efb3f69c0c872f637e421d914e5ecea99bbe7781f173dc38c
+
+raylib-devel_package() {
+	depends="${sourcepkg}>=${version}_${revision} glfw-devel"
+	short_desc+=" - development files"
+	pkg_install() {
+		vmove "usr/lib/*.so"
+		vmove usr/include
+		vmove usr/lib/cmake
+		vmove usr/lib/pkgconfig
+	}
+}
