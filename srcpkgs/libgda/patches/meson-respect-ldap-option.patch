@@ -1,0 +1,94 @@
+From 5df40478e22d6c4381996056a76437ff24864f35 Mon Sep 17 00:00:00 2001
+From: Chris Mayo <aklhfex@gmail.com>
+Date: Tue, 2 Mar 2021 19:30:57 +0000
+Subject: [PATCH] meson: Respect ldap option
+
+Only build LDAP provider if requested.
+
+Also fix configuration failure if openldap is not installed:
+tools/meson.build:149:0: ERROR: Unknown variable "libldap_provider".
+---
+ meson.build               |  1 +
+ providers/meson.build     |  2 +-
+ tools/browser/meson.build |  2 +-
+ tools/meson.build         | 17 +++++++++++------
+ 4 files changed, 14 insertions(+), 8 deletions(-)
+
+diff --git a/meson.build b/meson.build
+index d5689ffb7..62b465941 100644
+--- a/meson.build
++++ b/meson.build
+@@ -179,6 +179,7 @@ if ldap_lib_dep.found()
+ 			]
+ 	endif
+ endif
++enable_ldap = get_option('ldap') and ldap_found and get_option('experimental')
+ 
+ tconf = configuration_data() # Empty configuration
+ 
+diff --git a/providers/meson.build b/providers/meson.build
+index 4622fe18e..fd648b2f1 100644
+--- a/providers/meson.build
++++ b/providers/meson.build
+@@ -14,7 +14,7 @@ if postgres_dep.found()
+ subdir('postgres')
+ endif
+ 
+-if ldap_found and get_option('ldap') and get_option('experimental')
++if enable_ldap
+ subdir('ldap')
+ endif
+ 
+diff --git a/tools/browser/meson.build b/tools/browser/meson.build
+index 92ea73d04..39459c39c 100644
+--- a/tools/browser/meson.build
++++ b/tools/browser/meson.build
+@@ -7,7 +7,7 @@ subdir('schema-browser')
+ subdir('query-exec')
+ subdir('data-manager')
+ 
+-if ldap_found
++if enable_ldap
+ subdir('ldap-browser')
+ gda_browser_sources += ldap_perspective_sources
+ browser_deps += inc_ldapbrowserdir_dep
+diff --git a/tools/meson.build b/tools/meson.build
+index 69f717a62..b8e572766 100644
+--- a/tools/meson.build
++++ b/tools/meson.build
+@@ -42,7 +42,7 @@ tools_cargs = [
+ 	'-DIS_BROWSER',
+ 	'-DHAVE_GTK_CLASSES'
+ 	]
+-if ldap_found
++if enable_ldap
+ tools_cargs += [
+ 	'-DHAVE_LDAP'
+ 	]
+@@ -146,13 +146,18 @@ if windows
+ 	gda_browser_sources += win_res
+ endif
+ 
+-executable('org.gnome.gda.Browser',
+-	gda_browser_sources,
+-	link_with: [
++gda_browser_link_with = [
+ 		libgda,
+-		libldap_provider,
+ 		libgdaui
+-		],
++	]
++
++if enable_ldap
++	gda_browser_link_with += [ libldap_provider ]
++endif
++
++executable('org.gnome.gda.Browser',
++	gda_browser_sources,
++	link_with: gda_browser_link_with,
+ 	dependencies: browser_deps,
+ 	c_args: tools_cargs,
+ 	link_args: gda_browser_link_args,
+-- 
+GitLab
+

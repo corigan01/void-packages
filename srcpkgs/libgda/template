@@ -1,12 +1,11 @@
 # Template file for 'libgda'
 pkgname=libgda
-version=5.2.9
-revision=5
-build_style=gnu-configure
+version=6.0.0
+revision=1
+build_style=meson
 build_helper="gir"
-configure_args="--with-ui --with-gtksourceview --with-graphviz --enable-json
- --enable-system-sqlite"
-hostmakedepends="automake pkg-config intltool itstool flex perl glib-devel recode"
+configure_args="-Dtools=true -Dexperimental=true"
+hostmakedepends="pkg-config intltool itstool flex perl glib-devel recode"
 makedepends="gtk+3-devel libxml2-devel libxslt-devel
  openssl-devel libgcrypt-devel sqlite-devel db-devel libsoup-devel
  libsecret-devel libgnome-keyring-devel gtksourceview-devel graphviz-devel
@@ -17,21 +16,8 @@ maintainer="Orphaned <orphan@voidlinux.org>"
 license="GPL-2.0-only"
 homepage="http://www.gnome-db.org/"
 distfiles="${GNOME_SITE}/${pkgname}/${version%.*}/${pkgname}-${version}.tar.xz"
-checksum=59caed8ca72b1ac6437c9844f0677f8a296d52cfd1c0049116026abfb1d87d9b
+checksum=995f4b420e666da5c8bac9faf55e7aedbe3789c525d634720a53be3ccf27a670
 python_version=3
-
-if [ "$CROSS_BUILD" ]; then
-	configure_args+=" --disable-binreloc"
-fi
-
-post_extract() {
-	for f in $(find ${wrksrc} -type f -exec file "{}" \; | grep "C source" | cut -d ':' -f1); do
-		echo "${f}"
-		recode ISO-8859-1..UTF-8 "${f}"
-	done
-	#Fix LibreSSL build error
-	vsed -e 's,defined(LIBRESSL,!defined(OPENSSL,' -i providers/sqlcipher/sqlite3.c
-}
 
 libgda-devel_package() {
 	short_desc+=" - development files"
@@ -40,7 +26,6 @@ libgda-devel_package() {
 		vmove usr/include
 		vmove usr/lib/pkgconfig
 		vmove "usr/lib/*.so"
-		vmove usr/share/gtk-doc
 
 	}
 }
