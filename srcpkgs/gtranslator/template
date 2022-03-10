@@ -1,6 +1,6 @@
 # Template file for 'gtranslator'
 pkgname=gtranslator
-version=40.0
+version=41.0
 revision=1
 build_style=meson
 hostmakedepends="gettext pkg-config glib-devel itstool"
@@ -13,4 +13,4 @@ maintainer="Enno Boland <gottox@voidlinux.org>"
 license="GPL-3.0-or-later"
 homepage="https://wiki.gnome.org/Apps/Gtranslator"
 distfiles="${GNOME_SITE}/gtranslator/${version%.*}/gtranslator-${version}.tar.xz"
-checksum=ec3eba36dee1c549377d1475aef71748dbaebd295005e1990ea9821f02b38834
+checksum=136f11fe03a194990c43afe338bd1ea0ad14e7e1f6e868e5bf7c5b52c4c5e5e1
