@@ -1,0 +1,14 @@
+# Template file for 'gnome-firmware'
+pkgname=gnome-firmware
+version=42.beta
+revision=1
+build_style=meson
+configure_args="-Dsystemd=false"
+hostmakedepends="pkg-config help2man gettext"
+makedepends="gtk+3-devel fwupd-devel libxmlb-devel libhandy1-devel"
+short_desc="Install firmware on devices"
+maintainer="Michal Vasilek <michal@vasilek.cz>"
+license="GPL-3.0-or-later"
+homepage="https://gitlab.gnome.org/hughsie/gnome-firmware-updater"
+distfiles="https://people.freedesktop.org/~hughsient/releases/gnome-firmware-$version.tar.xz"
+checksum=29d0e019c2ff0ad9aa09c2eb5b17ae9a6c69d4681b93c1c7d0a60fd0ae7c5f2b
