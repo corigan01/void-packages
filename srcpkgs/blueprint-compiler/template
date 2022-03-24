@@ -1,0 +1,15 @@
+# Template file for 'blueprint-compiler'
+pkgname=blueprint-compiler
+version=0.0.0.20220322
+_commit=e3a37893a8709aa3d6a571ecb5a3f690da0ef82d
+revision=1
+wrksrc="$pkgname-$_commit"
+build_style=meson
+hostmakedepends="python3"
+depends="python3"
+short_desc="Markup language for GTK user interfaces"
+maintainer="Michal Vasilek <michal@vasilek.cz>"
+license="GPL-3.0-or-later"
+homepage="https://jwestman.pages.gitlab.gnome.org/blueprint-compiler/"
+distfiles="https://gitlab.gnome.org/jwestman/blueprint-compiler/-/archive/$_commit/blueprint-compiler-$_commit.tar.gz"
+checksum=41b2eaae430d1be6f2cf003d316e0b750380336b921b642f363b841a302cff6c
