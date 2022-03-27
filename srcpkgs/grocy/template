@@ -1,0 +1,22 @@
+# Template file for 'grocy'
+pkgname=grocy
+version=3.2.0
+revision=1
+create_wrksrc=yes
+depends="sqlite php8.0 php8.0-sqlite php8.0-gd php8.0-intl" # and enable iconv
+short_desc="Web-based self-hosted groceries & household management"
+maintainer="Michal Vasilek <michal@vasilek.cz>"
+license="MIT"
+homepage="https://grocy.info/"
+distfiles="https://github.com/grocy/grocy/releases/download/v$version/grocy_$version.zip"
+checksum=50f6b0bad9b932594f61daeef91a64f1461f1c335cacd61aab8a8c6d992ca2e2
+nostrip=yes
+
+do_install() {
+	vmkdir var/www/grocy
+	cp -r * ${DESTDIR}/var/www/grocy/
+}
+
+post_install() {
+	vlicense LICENSE
+}
