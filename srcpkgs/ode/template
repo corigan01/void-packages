@@ -1,0 +1,23 @@
+# Template file for 'ode'
+pkgname=ode
+version=0.16.2
+revision=1
+build_style=cmake
+makedepends="libX11-devel glfw-devel"
+short_desc="Industrial quality library for simulating articulated rigid body dynamics"
+maintainer="Michal Vasilek <michal@vasilek.cz>"
+license="LGPL-2.1-or-later or BSD-3-Clause"
+homepage="https://www.ode.org/"
+distfiles="https://bitbucket.org/odedevs/ode/downloads/ode-$version.tar.gz"
+checksum=b26aebdcb015e2d89720ef48e0cb2e8a3ca77915f89d853893e7cc861f810f22
+
+ode-devel_package() {
+	depends="${sourcepkg}>=${version}_${revision}"
+	short_desc+=" - development files"
+	pkg_install() {
+		vmove usr/bin/ode-config
+		vmove usr/include
+		vmove usr/lib/cmake
+		vmove usr/lib/pkgconfig
+	}
+}
