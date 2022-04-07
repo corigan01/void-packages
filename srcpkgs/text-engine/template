@@ -1,0 +1,23 @@
+# Template file for 'text-engine'
+pkgname=text-engine
+version=0.1.0
+revision=1
+build_style=meson
+hostmakedepends="pkg-config"
+makedepends="libglib-devel json-glib-devel libxml2-devel gtk4-devel"
+short_desc="Lightweight rich-text framework for GTK"
+maintainer="Michal Vasilek <michal@vasilek.cz>"
+license="LGPL-3.0-or-later"
+homepage="https://github.com/mjakeman/text-engine"
+distfiles="https://github.com/mjakeman/text-engine/archive/refs/tags/v$version.tar.gz"
+checksum=5e515d7c7ca73df0239c9badf12d80846aa1479c6e084fd8c791881e17db540d
+
+text-engine-devel_package() {
+	depends="${sourcepkg}>=${version}_${revision} $makedepends"
+	short_desc+=" - development files"
+	pkg_install() {
+		vmove usr/include
+		vmove usr/lib/pkgconfig
+	}
+}
+
