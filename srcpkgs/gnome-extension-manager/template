@@ -1,0 +1,22 @@
+# Template file for 'gnome-extension-manager'
+pkgname=gnome-extension-manager
+version=0.3.0
+revision=1
+#archs="i686 x86_64"
+wrksrc="extension-manager-$version"
+#create_wrksrc=yes
+build_style=meson
+#configure_args=""
+#make_build_args=""
+#make_install_args=""
+#conf_files=""
+#make_dirs="/var/log/dir 0755 root root"
+hostmakedepends="gettext pkg-config blueprint-compiler desktop-file-utils gir-freedesktop"
+makedepends="gtk4-devel libadwaita-devel json-glib-devel libsoup3-devel text-engine-devel"
+short_desc="GNOME Extension Manager"
+maintainer="Michal Vasilek <michal@vasilek.cz>"
+license="GPL-3.0-or-later"
+homepage="https://github.com/mjakeman/extension-manager"
+changelog="https://raw.githubusercontent.com/mjakeman/extension-manager/master/NEWS"
+distfiles="https://github.com/mjakeman/extension-manager/archive/refs/tags/v$version.tar.gz"
+checksum=a99211cf70759df13aa554a7c16613ce030f63c4419cdb7d0887b044718e9d47
