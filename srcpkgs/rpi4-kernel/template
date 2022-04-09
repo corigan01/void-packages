@@ -1,11 +1,11 @@
 # Template file for 'rpi4-kernel'
 # See rpi-kernel for version policy
 
-_githash="650082a559a570d6c9d2739ecc62843d6f951059"
+_githash="720e66a1a1f9bbe666cf1551cfd8d122640e9eca"
 _gitshort="${_githash:0:7}"
 
 pkgname=rpi4-kernel
-version=5.10.92
+version=5.15.32
 revision=1
 archs="aarch64*"
 wrksrc="linux-${_githash}"
@@ -16,7 +16,7 @@ homepage="http://www.kernel.org"
 license="GPL-2.0-only"
 short_desc="Linux kernel for Raspberry Pi 4 (${version%.*} series [git ${_gitshort}])"
 distfiles="https://github.com/raspberrypi/linux/archive/${_githash}.tar.gz"
-checksum=ae8b1635a33316ef9b85a4f0ce77d0032c74fbe2ef127755b17cd34d265c48d8
+checksum=2a36686d3fdea7b6acb0ee62f8f793fcfd83fd7794f689a5329aa15bf4728b8d
 python_version=3
 conflicts=rpi3-kernel
 
