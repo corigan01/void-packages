@@ -1,0 +1,15 @@
+# Template file for 'Flatseal'
+pkgname=Flatseal
+version=1.7.5
+revision=1
+build_style=meson
+hostmakedepends="gettext pkg-config glib-devel gjs"
+makedepends=""
+depends="gjs"
+short_desc="Manage Flatpak permissions"
+maintainer="Michal Vasilek <michal@vasilek.cz>"
+license="GPL-3.0-or-later"
+homepage="https://github.com/tchx84/Flatseal"
+changelog="https://raw.githubusercontent.com/tchx84/Flatseal/master/CHANGELOG.md"
+distfiles="https://github.com/tchx84/Flatseal/archive/refs/tags/v$version.tar.gz"
+checksum=89dc664e81a6450dc4b5350f767eb6a10144273b867117c0912efe263bd6a6b5
