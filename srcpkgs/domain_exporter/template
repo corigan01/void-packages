@@ -1,13 +1,12 @@
 # Template file for 'domain_exporter'
 pkgname=domain_exporter
-version=0.1.8
+version=0.1.14
 revision=1
 build_style=go
 go_import_path="github.com/shift/domain_exporter"
-hostmakedepends="git"
 short_desc="Prometheus WHOIS domain details exporter"
 maintainer="Toyam Cox <Vaelatern@voidlinux.org>"
 license="Apache-2.0"
 homepage="https://github.com/shift/domain_exporter"
 distfiles="https://github.com/shift/domain_exporter/archive/v${version}.tar.gz"
-checksum=f45a60f75832cf6b2df8943b570a636956901399d01f10b2d6bbf7e5ed24077d
+checksum=4ed466f08a0108a4e83b9cef736fb32d1739c38992972c9503d6831807b48198
