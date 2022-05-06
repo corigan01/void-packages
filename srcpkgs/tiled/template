@@ -1,0 +1,14 @@
+# Template file for 'tiled'
+pkgname=tiled
+version=1.8.4
+revision=1
+build_style=qmake
+make_build_args="-nostartfiles"
+hostmakedepends="qt5-host-tools"
+makedepends="qt5-devel qt5-declarative-devel zlib-devel"
+short_desc="Flexible level editor"
+maintainer="Michal Vasilek <michal@vasilek.cz>"
+license="GPL-2.0-or-later"
+homepage="https://www.mapeditor.org/"
+distfiles="https://github.com/bjorn/tiled/archive/v${version}.tar.gz"
+checksum=60d98f0845ffe967cc6eb75f49a20bd61a06c5e9b5488b3ec1ef7a0737410ebf
