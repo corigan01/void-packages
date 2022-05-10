@@ -1,0 +1,56 @@
+From a0d3387ca274336eb6ae1ce55f0ff4e29cf42696 Mon Sep 17 00:00:00 2001
+From: Michal Vasilek <michal@vasilek.cz>
+Date: Tue, 10 May 2022 14:22:43 +0200
+Subject: [PATCH] Generate and install a pkg-config file
+
+---
+ CMakeLists.txt     |  4 +++-
+ src/CMakeLists.txt |  3 +++
+ src/chipmunk.pc.in | 10 ++++++++++
+ 3 files changed, 16 insertions(+), 1 deletion(-)
+ create mode 100644 src/chipmunk.pc.in
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index b1372b4..6f8ea31 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,6 +1,8 @@
+ cmake_minimum_required(VERSION 3.7)
+ 
+-project(chipmunk)
++project(chipmunk
++DESCRIPTION "2D game physics library"
++)
+ 
+ # to change the prefix, run cmake with the parameter:
+ #   -D CMAKE_INSTALL_PREFIX=/my/prefix
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index 34882d1..49770be 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -57,3 +57,6 @@ if(BUILD_SHARED OR INSTALL_STATIC)
+   install(FILES ${chipmunk_public_header} DESTINATION include/chipmunk)
+   install(FILES ${chipmunk_constraint_header} DESTINATION include/chipmunk/constraints)
+ endif(BUILD_SHARED OR INSTALL_STATIC)
++
++configure_file(chipmunk.pc.in chipmunk.pc @ONLY)
++install(FILES ${CMAKE_CURRENT_BINARY_DIR}/chipmunk.pc DESTINATION lib/pkgconfig)
+diff --git a/src/chipmunk.pc.in b/src/chipmunk.pc.in
+new file mode 100644
+index 0000000..d8501a4
+--- /dev/null
++++ b/src/chipmunk.pc.in
+@@ -0,0 +1,10 @@
++prefix=@CMAKE_INSTALL_PREFIX@
++exec_prefix=${prefix}
++libdir="${exec_prefix}/lib"
++includedir=${prefix}/include/chipmunk
++
++Name: @PROJECT_NAME@
++Description: @CMAKE_PROJECT_DESCRIPTION@
++Version: @CHIPMUNK_VERSION@
++Libs: -L${libdir} -lchipmunk
++Cflags: -I${includedir}
+-- 
+2.35.3
+
