@@ -1,0 +1,4 @@
+#!/bin/sh
+GIN_MODE=release
+
+exec chpst -u headscale headscale serve

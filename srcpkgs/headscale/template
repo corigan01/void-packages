@@ -1,0 +1,29 @@
+# Template file for 'headscale'
+pkgname=headscale
+version=0.15.0
+revision=1
+build_style=go
+go_import_path="github.com/juanfont/headscale"
+go_package="cmd/headscale/headscale.go"
+go_ldflags="-X ${go_import_path}/cmd/headscale/cli.Version=${version}"
+short_desc="Open source, self-hosted implementation of the Tailscale control server"
+maintainer="Michal Vasilek <michal@vasilek.cz>"
+license="BSD-3-Clause"
+homepage="https://github.com/juanfont/headscale"
+changelog="https://raw.githubusercontent.com/juanfont/headscale/main/CHANGELOG.md"
+distfiles="https://github.com/juanfont/headscale/archive/refs/tags/v${version}.tar.gz"
+checksum=4cfa732453c1270b8b5d1ded1687b517a5822fa5afb1595267d434e570702d04
+
+conf_files="/etc/headscale/config.yaml"
+system_accounts="headscale"
+
+post_extract() {
+	vsed -e 's|/var/run/headscale.sock|/var/run/headscale/headscale.sock|' \
+		-e 's/disable_check_updates: false/disable_check_updates: true/' \
+		-i config-example.yaml
+}
+
+post_install() {
+	vconf config-example.yaml headscale/config.yaml
+	vsv headscale
+}
