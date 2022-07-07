@@ -8,7 +8,7 @@ configure_args="-Dgtk-doc=false -Drpm=false -Dstemmer=false
  -Dintrospection=$(vopt_if gir true false)"
 hostmakedepends="gcab gperf pkg-config glib-devel"
 makedepends="gcab-devel gtk+3-devel json-glib-devel libarchive-devel
- libsoup-devel libyaml-devel"
+ libcurl-devel libyaml-devel"
 short_desc="Install and update applications"
 maintainer="Enno Boland <gottox@voidlinux.org>"
 license="LGPL-2.1-or-later"
@@ -26,7 +26,7 @@ post_install() {
 
 appstream-glib-devel_package() {
 	depends="${sourcepkg}>=${version}_${revision} gcab-devel gdk-pixbuf-devel
-	 libarchive-devel libsoup-devel libyaml-devel"
+	 libarchive-devel libcurl-devel libyaml-devel"
 	short_desc+=" - development files"
 	pkg_install() {
 		vmove usr/include
