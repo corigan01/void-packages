@@ -1,7 +1,7 @@
 # Template file for 'gnome-calendar'
 pkgname=gnome-calendar
 version=42.2
-revision=1
+revision=2
 build_style=meson
 hostmakedepends="gettext glib-devel pkg-config gtk-update-icon-cache
  $(vopt_if gir 'gobject-introspection')"
