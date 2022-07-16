@@ -1,7 +1,7 @@
 # Template file for 'cabbage'
 pkgname=cabbage
 version=2.5.0
-revision=1
+revision=2
 # specified in buildLinux.sh
 _jucever=5.4.7
 _vstsdkver=3611_22_10_2018_build_34
