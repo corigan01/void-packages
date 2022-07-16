@@ -2,7 +2,7 @@
 pkgname=libdmapsharing
 reverts="3.9.7_1"
 version=2.9.39
-revision=3
+revision=4
 build_style=gnu-configure
 build_helper=gir
 configure_args="--with-mdns=avahi --disable-tests"
