@@ -1,7 +1,7 @@
 # Template file for 'srain'
 pkgname=srain
-version=1.3.2
-revision=1
+version=1.4.0
+revision=2
 build_style=meson
 build_helper=gir
 configure_args="--prefix=/usr --sysconfdir=/etc"
