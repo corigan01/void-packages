@@ -1,7 +1,7 @@
 # Template file for 'midori'
 pkgname=midori
 version=9.0
-revision=1
+revision=2
 wrksrc="midori-v${version}"
 build_style=cmake
 build_helper="gir"
