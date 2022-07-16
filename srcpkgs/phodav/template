@@ -1,10 +1,12 @@
 # Template file for 'phodav'
 pkgname=phodav
-version=2.5
-revision=1
+version=3.0
+_commit=d733fd853f0664ad8035b1b85604c62de0e97098
+wrksrc="${pkgname}-${_commit}"
+revision=0
 build_style=meson
-configure_args="-Dsystemd=disabled -Davahi=enabled -Dgtk_doc=disabled
- -Dudev=enabled"
+configure_args="-Davahi=enabled -Dgtk_doc=disabled
+ -Dsystemdsystemunitdir=/var/lib/systemd"
 hostmakedepends="pkg-config"
 makedepends="libglib-devel libsoup-devel libxml2-devel avahi-glib-libs-devel
  eudev-libudev-devel"
@@ -12,8 +14,9 @@ short_desc="GNOME Web Dav implementation"
 maintainer="Enno Boland <gottox@voidlinux.org>"
 license="LGPL-2.1-or-later"
 homepage="https://wiki.gnome.org/phodav"
-distfiles="${GNOME_SITE}/${pkgname}/${version}/${pkgname}-${version}.tar.xz"
-checksum=71f0a9cd70afd4dd1412a0298331dbb8ac71c0377f52117afc15eb88dc6fb910
+#distfiles="${GNOME_SITE}/${pkgname}/${version}/${pkgname}-${version}.tar.xz"
+distfiles="https://gitlab.gnome.org/GNOME/phodav/-/archive/$_commit/phodav-$_commit.tar.gz"
+checksum=4672fe27aa7d63fe2e8afcd87ef4dd7688bd0653be57ce22e00b628f078d69a0
 
 phodav-devel_package() {
 	depends="libglib-devel libsoup-devel libxml2-devel
