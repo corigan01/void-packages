@@ -1,6 +1,6 @@
 # Template file for 'rygel'
 pkgname=rygel
-version=0.40.2
+version=0.40.4
 revision=1
 build_style=meson
 build_helper="gir"
@@ -16,7 +16,7 @@ maintainer="Orphaned <orphan@voidlinux.org>"
 license="LGPL-2.1-or-later"
 homepage="https://wiki.gnome.org/Projects/Rygel"
 distfiles="${GNOME_SITE}/${pkgname}/${version%.*}/${pkgname}-${version}.tar.xz"
-checksum=c9e8c736296d22c4defe959727a29d31437bbd2b7aa0c6470d6be24011050697
+checksum=736d8adbe8615f6cbc8fcfff9845dc985fd10e16629da236b4b52dbedf0a348b
 
 conf_files="/etc/rygel.conf"
 
