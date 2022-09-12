@@ -1,6 +1,6 @@
 # Template file for 'openldap'
 pkgname=openldap
-version=2.6.2
+version=2.4.58
 revision=1
 build_style=gnu-configure
 configure_args="--prefix=/usr
@@ -22,7 +22,7 @@ maintainer="Orphaned <orphan@voidlinux.org>"
 license="OLDAP-2.0"
 homepage="http://www.openldap.org"
 distfiles="https://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-${version}.tgz"
-checksum=81d09345232eb62486ecf5acacd2c56c0c45b4a6c8c066612e7f421a23a1cf87
+checksum=57b59254be15d0bf6a9ab3d514c1c05777b02123291533134a87c94468f8f47b
 
 system_accounts="ldap"
 ldap_homedir="/var/lib/openldap"
@@ -37,9 +37,9 @@ post_install() {
 	vsv slapd
 	vlicense LICENSE
 	chmod 755 ${DESTDIR}/usr/lib/*.so.*
-	# vmkdir usr/share/examples/openldap
-	# mv ${DESTDIR}/etc/openldap/*.{example,default} ${DESTDIR}/usr/share/examples/openldap
-	# chmod 0644 ${DESTDIR}/usr/share/examples/openldap/*
+	vmkdir usr/share/examples/openldap
+	mv ${DESTDIR}/etc/openldap/*.{example,default} ${DESTDIR}/usr/share/examples/openldap
+	chmod 0644 ${DESTDIR}/usr/share/examples/openldap/*
 }
 
 
