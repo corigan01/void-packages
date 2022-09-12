@@ -1,7 +1,7 @@
 # Template file for 'cyrus-sasl'
 pkgname=cyrus-sasl
-version=2.1.28
-revision=1
+version=2.1.27
+revision=9
 build_style=gnu-configure
 configure_args="--disable-static --enable-shared --enable-checkapop
  --enable-cram --enable-digest --disable-otp --disable-srp
@@ -13,14 +13,15 @@ configure_args="--disable-static --enable-shared --enable-checkapop
  --with-mysql=${XBPS_CROSS_BASE}/usr"
 hostmakedepends="automake libtool groff pkg-config"
 makedepends="libsasl-devel openssl-devel db-devel libldap-devel
- pam-devel sqlite-devel postgresql-libs-devel libmariadbclient-devel"
+ mit-krb5-devel pam-devel sqlite-devel postgresql-libs-devel
+ libmariadbclient-devel"
 depends="libsasl>=${version}"
 short_desc="Cyrus SASL - auth daemon and administration tools"
 maintainer="Orphaned <orphan@voidlinux.org>"
 license="BSD-3-Clause-Attribution"
 homepage="https://www.cyrusimap.org/sasl/"
 distfiles="https://github.com/cyrusimap/cyrus-sasl/releases/download/cyrus-sasl-${version}/cyrus-sasl-${version}.tar.gz"
-checksum=7ccfc6abd01ed67c1a0924b353e526f1b766b21f42d4562ee635a8ebfc5bb38c
+checksum=26866b1549b00ffd020f188a43c258017fa1c382b3ddadd8201536f72efb05d5
 
 pre_configure() {
 	autoreconf -fi
