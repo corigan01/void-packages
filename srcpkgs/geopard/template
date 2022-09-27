@@ -1,0 +1,15 @@
+# Template file for 'geopard'
+pkgname=geopard
+version=1.3.0
+revision=1
+build_style=meson
+hostmakedepends="rust cargo pkg-config gettext blueprint-compiler
+ desktop-file-utils gtk-update-icon-cache glib-devel gtk4"
+makedepends="gtk4-devel libadwaita-devel openssl-devel rust-std"
+short_desc="Colorful, adaptive gemini browser"
+maintainer="Michal Vasilek <michal@vasilek.cz>"
+license="GPL-3.0-or-later"
+homepage="https://ranfdev.com/projects/Geopard/"
+#changelog=""
+distfiles="https://github.com/ranfdev/Geopard/releases/download/v$version/com.ranfdev.Geopard.tar.xz"
+checksum=3ee6ded37c57f8022b90166d13f2339faf80e27f9d2cfd80f975024c651ce51a
