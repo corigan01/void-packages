@@ -1,0 +1,16 @@
+# Template file for 'marble'
+pkgname=marble
+version=42
+_commit="6dcc6fefa35f0151b0549c01bd774750fe6bdef8"
+revision=1
+build_style=meson
+hostmakedepends="vala pkg-config glib-devel gobject-introspection"
+makedepends="gtk4-devel"
+depends=""
+short_desc="Collection of useful functions and reusable widgets"
+maintainer="Michal Vasilek <michal@vasilek.cz>"
+license="GPL-3.0-or-later"
+homepage="https://gitlab.gnome.org/raggesilver/marble"
+#changelog=""
+distfiles="https://gitlab.gnome.org/raggesilver/marble/-/archive/${_commit}/marble-${_commit}.tar.gz"
+checksum=6fe25ab863bf9a81fac827861b3f17d07fb4a0e4d944dbb0d5b09dfafca59fb4
