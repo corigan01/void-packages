@@ -1,0 +1,15 @@
+# Template file for 'gnome-blackbox'
+pkgname=gnome-blackbox
+version=0.12.2
+revision=1
+build_style=meson
+hostmakedepends="vala gettext pkg-config"
+makedepends="libadwaita-devel vte3-gtk4-devel librsvg-devel marble"
+depends=""
+short_desc="Beautiful GTK 4 terminal"
+maintainer="Michal Vasilek <michal@vasilek.cz>"
+license="GPL-3.0-or-later"
+homepage="https://gitlab.gnome.org/raggesilver/blackbox"
+#changelog=""
+distfiles="https://gitlab.gnome.org/raggesilver/blackbox/-/archive/v${version}/blackbox-v${version}.tar.gz"
+checksum=8fbd209b81b2abb192e29e61239dafc4da072c28e7503c9788f9d18f1e55aeba
