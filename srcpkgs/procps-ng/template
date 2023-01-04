@@ -1,7 +1,7 @@
 # Template file for 'procps-ng'
 pkgname=procps-ng
-version=3.3.17
-revision=2
+version=4.0.2
+revision=1
 build_style=gnu-configure
 configure_args="--exec-prefix=/ --bindir=/usr/bin --sbindir=/usr/bin
  --libdir=/usr/lib --disable-kill --enable-watch8bit
@@ -15,16 +15,16 @@ license="GPL-2.0-or-later, LGPL-2.1-or-later"
 homepage="https://gitlab.com/procps-ng/procps"
 changelog="https://gitlab.com/procps-ng/procps/raw/master/NEWS"
 distfiles="${SOURCEFORGE_SITE}/${pkgname}/Production/${pkgname}-${version}.tar.xz"
-checksum=4518b3e7aafd34ec07d0063d250fd474999b20b200218c3ae56f5d2113f141b4
+checksum=ee3fcd2ea6ff94aa43a81ba5cc7912b7c9615acd2911c7a3d3ea081287fdf47a
 make_check=no
 
 conf_files="/etc/sysctl.conf"
 
-post_extract() {
-	sed -i 's,ncursesw/ncurses.h,ncurses.h,g' watch.c
-	sed -i '1i#include <utmp.h>' w.c
-	sed -i '1i#include <langinfo.h>' proc/escape.c
-}
+#post_extract() {
+#	#sed -i 's,ncursesw/ncurses.h,ncurses.h,g' watch.c
+#	#sed -i '1i#include <utmp.h>' w.c
+#	#vsed -e '1i#include <langinfo.h>' -i proc/escape.c
+#}
 
 pre_configure() {
 	autoreconf -fi
