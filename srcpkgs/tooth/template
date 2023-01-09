@@ -1,0 +1,16 @@
+# Template file for 'tooth'
+pkgname=tooth
+version=1.0
+revision=1
+_commit=2df67299a07ea4896a1f8b115c34d771f9f55d13
+build_style=meson
+hostmakedepends="vala pkg-config gettext glib-devel gtk-update-icon-cache
+ desktop-file-utils"
+makedepends="libadwaita-devel libsoup-devel libgee-devel json-glib-devel
+ libsecret-devel"
+short_desc="Native GTK Mastodon client"
+maintainer="Michal Vasilek <michal@vasilek.cz>"
+license="GPL-3.0-or-later"
+homepage="https://github.com/GeopJr/Tooth/"
+distfiles="https://github.com/GeopJr/Tooth/archive/${_commit}.tar.gz"
+checksum=7d70a3ee64a3fad87ae9407595324402270f853ec3cd6d15006848fe3bbe0a24
