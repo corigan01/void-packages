@@ -1,0 +1,23 @@
+# Template file for 'netbird'
+pkgname=netbird
+version=0.12.0
+revision=1
+build_style=go
+build_helper="qemu"
+go_import_path="github.com/netbirdio/netbird"
+go_package="${go_import_path}/client"
+short_desc="WireGuard-based mesh network with SSO/MFA and simple access controls"
+maintainer="Michal Vasilek <michal@vasilek.cz>"
+license="BSD-3-Clause"
+homepage="https://netbird.io/"
+changelog="https://github.com/netbirdio/netbird/releases"
+distfiles="https://github.com/netbirdio/netbird/archive/refs/tags/v${version}.tar.gz"
+checksum=c88b65bb9358e5a6f9c34882e77a3414b02d4c5ac13b76fb2e60b952af6a18d7
+
+post_install() {
+	mv ${DESTDIR}/usr/bin/client ${DESTDIR}/usr/bin/netbird
+	for shell in bash zsh fish; do
+		vtargetrun ${DESTDIR}/usr/bin/netbird completion $shell > netbird.$shell
+		vcompletion netbird.$shell $shell
+	done
+}
