@@ -1,15 +1,16 @@
 # Template file for 'ncurses'
 pkgname=ncurses
-version=6.3
-revision=3
+version=6.4
+revision=1
 bootstrap=yes
 configure_args="--enable-big-core"
 short_desc="System V Release 4.0 curses emulation library"
 maintainer="Enno Boland <gottox@voidlinux.org>"
 license="MIT"
-homepage="http://www.gnu.org/software/ncurses/"
-distfiles="${GNU_SITE}/ncurses/$pkgname-$version.tar.gz"
-checksum=97fc51ac2b085d4cde31ef4d2c3122c21abc217e9090a43a30fc5ec21684e059
+homepage="https://invisible-island.net/ncurses/"
+changelog="https://invisible-island.net/ncurses/announce.html"
+distfiles="https://invisible-island.net/archives/ncurses/ncurses-${version}.tar.gz"
+checksum=6931283d9ac87c5073f30b6290c4c75f21632bb4fc3603ac8100812bed248159
 
 depends="ncurses-base-${version}_${revision}"
 
