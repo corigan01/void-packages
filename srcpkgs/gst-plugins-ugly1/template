@@ -1,6 +1,6 @@
 # Template file for 'gst-plugins-ugly1'
 pkgname=gst-plugins-ugly1
-version=1.20.3
+version=1.22.0
 revision=1
 build_style=meson
 configure_args="-Damrnb=disabled -Damrwbdec=disabled -Dsidplay=disabled"
@@ -14,5 +14,5 @@ short_desc="GStreamer plugins from the ugly set (1.x)"
 maintainer="Orphaned <orphan@voidlinux.org>"
 license="LGPL-2.1-or-later"
 homepage="https://gstreamer.freedesktop.org"
-distfiles="${homepage}/src/${pkgname/1/}/${pkgname/1/}-${version}.tar.xz"
-checksum=8caa20789a09c304b49cf563d33cca9421b1875b84fcc187e4a385fa01d6aefd
+distfiles="https://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-${version}.tar.xz"
+checksum=a644dc981afa2d8d3a913f763ab9523c0620ee4e65a7ec73c7721c29da3c5a0c
