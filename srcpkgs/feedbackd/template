@@ -1,10 +1,11 @@
 # Template file for 'feedbackd'
 pkgname=feedbackd
-version=0.0.0+git20220208
+version=0.0.3
 revision=1
-wrksrc=${pkgname}-v${version}
+_gmobile_commit=d483537aee4778b114ce5d50c4c8a9f8d58337ed
 build_style=meson
 build_helper=gir
+build_wrksrc="feedbackd-v${version}"
 hostmakedepends="vala glib-devel pkg-config"
 makedepends="gsound-devel libgudev-devel json-glib-devel"
 depends="dbus"
@@ -13,8 +14,16 @@ short_desc="Daemon to provide haptic feedback on events"
 maintainer="Jan Christian Grünhage <jan.christian@gruenhage.xyz>"
 license="GPL-3.0-or-later"
 homepage="https://source.puri.sm/Librem5/feedbackd"
-distfiles="${homepage}/-/archive/v${version}/${pkgname}-v${version}.tar.gz"
-checksum=b4504aad1d061a41d1ca8cf4d09b43fecbd6b2286b6593d0b8a15169ab21398a
+distfiles="https://source.puri.sm/Librem5/feedbackd/-/archive/v${version}/feedbackd-v${version}.tar.gz
+ https://gitlab.gnome.org/guidog/gmobile/-/archive/${_gmobile_commit}/gmobile-${_gmobile_commit}.tar.gz"
+checksum="bfb9baaf80bfc82130f86eb5d3a75651ef0b14fa1435badf3941483495dbf1db
+ f337c0ceda3e21f1bd3b9774b2d9c92858c6b9ce7530bd52aeba13535e622d4f"
+
+post_extract() {
+	cd ${build_wrksrc}
+	rm -r subprojects/gmobile
+	mv ../gmobile-${_gmobile_commit} subprojects/gmobile
+}
 
 post_install() {
 	vinstall debian/feedbackd.udev 0644 usr/lib/udev/rules.d 90-feedbackd.rules
