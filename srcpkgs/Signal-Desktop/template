@@ -9,7 +9,7 @@ build_wrksrc="${pkgname}-${version}"
 # x86_64-musl fails because of its dependency on 'node-gyp' which depends on a glibc specific extension
 # armv7hf/arm64: https://github.com/signalapp/Signal-Desktop/issues/3410
 archs="x86_64*"
-hostmakedepends="git git-lfs nodejs python3 tar yarn electron19 cargo rust-std"
+hostmakedepends="git git-lfs nodejs python3 tar yarn electron19 cargo rust-std protobuf cmake libclang"
 build_helper="rust"
 depends="cairo gtk+3 libvips pango"
 short_desc="Signal Private Messenger for Linux"
@@ -28,6 +28,10 @@ post_extract() {
 	git lfs install
 
 	vsed 's/"node": "/&>=/' -i package.json
+	(
+	cd ${wrksrc}
+	tar xf /usr/include/electron19/node_headers.tar.gz
+	)
 }
 
 do_configure() {
@@ -40,12 +44,14 @@ do_build() {
 	(
 		cd "$wrksrc"/libsignal-$_libsignalver/node
 
+		vsed -e "s/unknown-linux-gnu/unknown-linux-musl/g" -i binding.gyp
+
 		echo "Building libsignal"
 		yarn add node-gyp --dev
 
 		echo "Building libsignal"
-		yarn node-gyp configure --nodedir=/usr/include/electron/node_headers --build-from-source
-		yarn node-gyp build --nodedir=/usr/include/electron/node_headers --build-from-source
+		yarn node-gyp configure --nodedir=${wrksrc}/node_headers --build-from-source
+		yarn node-gyp build --nodedir=${wrksrc}/node_headers --build-from-source
 
 		mkdir -p prebuilds/linux-$chromium_arch
 		mv build/Release/libsignal_client_linux_$chromium_arch.node prebuilds/linux-$chromium_arch/node.napi.node
@@ -56,8 +62,9 @@ do_build() {
 		echo "Cleaning dev dependencies for libsignal"
 		yarn --ignore-scripts --frozen-lockfile --production
 	)
+	pwd
 	rm -rf node_modules/@signalapp/libsignal-client/
-	mv "$wrksrc"/libsignal-$_libsignalver/node/ node_modules/@signalapp/libsignal-client
+	mv "${wrksrc}"/libsignal-$_libsignalver/node/ node_modules/@signalapp/libsignal-client
 
 	yarn install --ignore-engines --frozen-lockfile
 
