@@ -1,6 +1,6 @@
 # Template file for 'gjs'
 pkgname=gjs
-version=1.76.0
+version=1.78.0
 revision=1
 build_style=meson
 build_helper="gir qemu"
@@ -13,9 +13,9 @@ maintainer="Enno Boland <gottox@voidlinux.org>"
 license="MIT, LGPL-2.0-or-later"
 homepage="https://gitlab.gnome.org/GNOME/gjs"
 #changelog="https://gitlab.gnome.org/GNOME/gjs/-/raw/master/NEWS"
-changelog="https://gitlab.gnome.org/GNOME/gjs/-/raw/gnome-44/NEWS"
+changelog="https://gitlab.gnome.org/GNOME/gjs/-/raw/gnome-45/NEWS"
 distfiles="${GNOME_SITE}/gjs/${version%.*}/gjs-${version}.tar.xz"
-checksum=a63f156964b136053eab51ea013114e7d7c193b7518d28c040b6b02c3c933a6d
+checksum=fbaa20e0917668830800f92951688f9fc08f01296affd5cdb4b35f750be27dc9
 make_check_pre="xvfb-run"
 
 if [ "$XBPS_CHECK_PKGS" ]; then
